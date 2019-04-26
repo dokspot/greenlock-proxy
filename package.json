@@ -10,6 +10,7 @@
         "prod": "tsc && node ./build/app.js"
     },
     "dependencies": {
+        "greenlock-express": "^2.7.6",
         "http-proxy": "^1.17.0",
         "install": "^0.12.2",
         "npm": "^6.9.0",
