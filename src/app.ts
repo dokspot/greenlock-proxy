@@ -14,7 +14,12 @@ let leStore = require('le-store-redis').create({
 // let's create ou greenlock server first
 
 let greenlock = Greenlock.create({
-  // check greenlock's doc for the entire code sample
+  version: 'draft-11',
+  server: 'https://acme-staging-v02.api.letsencrypt.org/directory',
+  email: 'cyrille.derche@dokspot.com',
+  agreeTos: true,
+  store: leStore,
+  approvedDomains: ['example.com', 'www.example.com']
 });
 
 
