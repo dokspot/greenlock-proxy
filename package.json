@@ -3,9 +3,9 @@
     "version": "1.0.0",
     "description": "dokspot proxy application",
     "author": "Cyrille Derche <cyrille.derche@dokspot.com",
-    "main": "index.ts",
+    "main": "src/app.ts",
     "scripts": {
-        "start": "node index.ts"
+        "tsc": "tsc"
     },
     "dependencies": {
         "typescript": "^3.4.5"
