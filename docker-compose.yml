@@ -29,7 +29,7 @@ services:
       - redis:redis
     volumes:
       - ./:/home/node
-    command: npm run dev
+    command: npm run prod
     ports:
       - 80:80
       - 443:443
