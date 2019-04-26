@@ -1,0 +1,10 @@
+{
+    "name": "dokspot_proxy_app",
+    "version": "1.0.0",
+    "description": "dokspot proxy application",
+    "author": "Cyrille Derche <cyrille.derche@dokspot.com",
+    "main": "index.ts",
+    "scripts": {
+        "start": "node index.ts"
+    }
+}
