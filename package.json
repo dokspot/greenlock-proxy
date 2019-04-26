@@ -10,6 +10,9 @@
         "prod": "tsc && node ./build/app.js"
     },
     "dependencies": {
+        "http-proxy": "^1.17.0",
+        "install": "^0.12.2",
+        "npm": "^6.9.0",
         "typescript": "^3.4.5"
     },
     "devDependencies": {
