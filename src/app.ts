@@ -6,8 +6,8 @@ let redir = require('redirect-https')();
 let leStore = require('le-store-redis').create({
   debug: true,
   redisOptions: {
-    db: 2,
-    password: 'password'
+    db: process.env.REDIS_DB,
+    password: process.env.REDIS_PASSWORD
   }
 })
 
@@ -19,9 +19,8 @@ let greenlock = Greenlock.create({
   email: 'cyrille.derche@dokspot.com',
   agreeTos: true,
   store: leStore,
-  approvedDomains: ['example.com', 'www.example.com']
+  approvedDomains: ['slave.clientdomain1.com', 'slave.clientdomain2.com']
 });
-
 
 require('http').createServer(greenlock.middleware(redir)).listen(80);
 
