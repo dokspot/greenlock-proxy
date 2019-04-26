@@ -5,9 +5,14 @@
     "author": "Cyrille Derche <cyrille.derche@dokspot.com",
     "main": "src/app.ts",
     "scripts": {
-        "tsc": "tsc"
+        "build": "tsc",
+        "dev": "ts-node-dev --respawn --transpileOnly ./src/app.ts",
+        "prod": "tsc && node ./build/app.js"
     },
     "dependencies": {
         "typescript": "^3.4.5"
+    },
+    "devDependencies": {
+        "ts-node-dev": "^1.0.0-pre.32"
     }
 }
