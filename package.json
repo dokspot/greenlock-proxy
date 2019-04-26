@@ -13,6 +13,7 @@
         "greenlock": "^2.7.17",
         "http-proxy": "^1.17.0",
         "install": "^0.12.2",
+        "le-store-redis": "^0.2.3",
         "npm": "^6.9.0",
         "redirect-https": "^1.3.0",
         "typescript": "^3.4.5"

@@ -3,6 +3,14 @@ let httpProxy = require('http-proxy');
 let proxy = httpProxy.createProxyServer({});
 let redir = require('redirect-https')();
 
+let leStore = require('le-store-redis').create({
+  debug: true,
+  redisOptions: {
+    db: 2,
+    password: 'password'
+  }
+})
+
 // let's create ou greenlock server first
 
 let greenlock = Greenlock.create({
