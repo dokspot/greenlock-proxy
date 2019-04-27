@@ -2,22 +2,22 @@ let Greenlock = require('greenlock');
 let httpProxy = require('http-proxy');
 let proxy = httpProxy.createProxyServer({});
 
-let leStore = require('le-store-redis').create({
-  debug: true,
-  redisOptions: {
-    // db: process.env.REDIS_DB,
-    // password: process.env.REDIS_PASSWORD
-  }
-})
+// let leStore = require('le-store-redis').create({
+//   debug: true,
+//   redisOptions: {
+//     // db: process.env.REDIS_DB,
+//     // password: process.env.REDIS_PASSWORD
+//   }
+// })
 
 // let's create ou greenlock server first
 
 let greenlock = Greenlock.create({
-  version: 'draft-11',
+  version: 'draft-12',
   server: 'https://acme-staging-v02.api.letsencrypt.org/directory',
   email: 'cyrille.derche@dokspot.com',
   agreeTos: true,
-  store: leStore,
+  // store: leStore,
   approvedDomains: ['slave.clientdomain1.com', 'slave.clientdomain2.com'],
   debug: true,
   // challenges: { 'http-01': require('greenlock-challenge-http').create({ debug: true }) }
