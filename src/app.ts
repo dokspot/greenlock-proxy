@@ -9,7 +9,7 @@ var leStore = require('greenlock-store-fs').create({
 });
 
 // ACME Challenge Handlers
-var leHttpChallenge = require('greenlock-challenge-http').create({
+var http01Challenge = require('le-challenge-fs').create({
   webrootPath: '/home/node/acme/var'
 , debug: true
 });
@@ -24,9 +24,8 @@ let greenlock = Greenlock.create({
 , approvedDomains: [ 'slave.clientdomain1.com', 'slave.clientdomain2.com', 'example.com' ]
 , store: leStore
 , challenges: {
-  'http-01': leHttpChallenge
+  'http-01': http01Challenge
 }
-, challengeType: 'http-01'
 , debug: true
 });
 
