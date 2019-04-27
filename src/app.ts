@@ -1,42 +1,25 @@
-let Greenlock = require('greenlock-express');
+////////////////////
+// INIT GREENLOCK //
+////////////////////
 
-let glx = Greenlock.create({
-  version:          'draft-11'
-, server:           'https://acme-staging-v02.api.letsencrypt.org/directory'
-, email:            'cyrille.derche@dokspot.com'
-, agreeTos:         true
-, approvedDomains:  [ 'slave.clientdomain1.com', 'slave.clientdomain2.com', 'example.com' ]
-, configDir:        '/home/node/acme/'
-, communityMember:  true
-, debug:            true
-})
+var greenlock = require('greenlock').create({
+  email: 'cyrille.derche@dokspot.com'           // IMPORTANT: Change email and domains
+, agreeTos: true                      // Accept Let's Encrypt v2 Agreement
+, configDir: '~/.config/acme'         // A writable folder (a non-fs plugin)
 
-////////////////////////
-// http-01 Challenges //
-////////////////////////
+, communityMember: true               // Get (rare) non-mandatory updates about cool greenlock-related stuff (default false)
+, securityUpdates: true               // Important and mandatory notices related to security or breaking API changes (default true)
 
-// http-01 challenge happens over http/1.1, not http2
-var redirectHttps = require('redirect-https')();
-var acmeChallengeHandler = glx.middleware(redirectHttps);
-require('http').createServer(acmeChallengeHandler).listen(80, function (this: any) {
-  console.log("Listening for ACME http-01 challenges on", this.address());
+, approveDomains: [ 'slave.clientdomain1.com' , 'slave.clientdomain2.com' ]
 });
 
-////////////////////////
-// http2 via SPDY h2  //
-////////////////////////
+////////////////////
+// CREATE SERVERS //
+////////////////////
 
-// spdy is a drop-in replacement for the https API
-var spdyOptions = Object.assign({}, glx.tlsOptions);
-spdyOptions.spdy = { protocols: [ 'h2', 'http/1.1' ], plain: false };
+var redir = require('redirect-https')();
+require('http').createServer(greenlock.middleware(redir)).listen(80);
 
-var server = require('spdy').createServer(spdyOptions, function(req: any, res: any) {
-  
-});
-server.on('error', function (err: any) {
-  console.error(err);
-});
-server.on('listening', function (this: any) {
-  console.log("Listening for SPDY/http2/https requests on", this.address());
-});
-server.listen(443);
+require('spdy').createServer(greenlock.tlsOptions, function (req: any, res: any) {
+  res.end('Hello, Secure World!');
+}).listen(443);
