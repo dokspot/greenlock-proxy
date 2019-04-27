@@ -7,7 +7,6 @@ var leStore = require('le-store-redis').create({
     debug: true,
     redisOptions: {
         db: process.env.REDIS_DB,
-        password: process.env.REDIS_PASSWORD
     }
 });
 // let's create ou greenlock server first
