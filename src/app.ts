@@ -10,7 +10,7 @@ var leStore = require('greenlock-store-fs').create({
 
 // ACME Challenge Handlers
 var leHttpChallenge = require('le-challenge-fs').create({
-  webrootPath: '/home/node/acme/var'
+  webrootPath: '/srv/www/:hostname/.well-known/acme-challenge'
 , debug: false
 });
 
