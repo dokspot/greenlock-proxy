@@ -6,7 +6,8 @@ var redir = require('redirect-https')();
 var leStore = require('le-store-redis').create({
     debug: true,
     redisOptions: {
-        db: process.env.REDIS_DB,
+    // db: process.env.REDIS_DB,
+    // password: process.env.REDIS_PASSWORD
     }
 });
 // let's create ou greenlock server first
@@ -17,9 +18,12 @@ var greenlock = Greenlock.create({
     agreeTos: true,
     store: leStore,
     approvedDomains: ['slave.clientdomain1.com', 'slave.clientdomain2.com'],
-    debug: true
+    debug: true,
+    challenges: { 'http-01': require('greenlock-challenge-http').create({ debug: true }) }
 });
-require('http').createServer(greenlock.middleware(redir)).listen(80);
+require('http').createServer(greenlock.middleware(redir)).listen(80, function () {
+    console.log("Listening for ACME http-01 challenges");
+});
 require('https').createServer(greenlock.tlsOptions, function (req, res) {
     return proxy.web(req, res, {
         target: 'https://www.google.com/',
