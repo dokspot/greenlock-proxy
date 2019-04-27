@@ -2,26 +2,32 @@ let Greenlock = require('greenlock');
 let httpProxy = require('http-proxy');
 let proxy = httpProxy.createProxyServer({});
 
-// let leStore = require('le-store-redis').create({
-//   debug: true,
-//   redisOptions: {
-//     // db: process.env.REDIS_DB,
-//     // password: process.env.REDIS_PASSWORD
-//   }
-// })
+// Storage Backend
+let leStore = require('greenlock-store-fs').create({
+  configDir: '/home/node/acme/etc'
+, debug: true
+});
+
+// ACME Challenge Handlers
+var leHttpChallenge = require('le-challenge-fs').create({
+  webrootPath: 'home/node/acme/var/'                              
+, debug: true
+});
 
 // let's create ou greenlock server first
 
 let greenlock = Greenlock.create({
-  version: 'draft-12',
-  server: 'https://acme-staging-v02.api.letsencrypt.org/directory',
-  email: 'cyrille.derche@dokspot.com',
-  agreeTos: true,
-  store: require('greenlock-store-fs'),
-  approvedDomains: ['slave.clientdomain1.com', 'slave.clientdomain2.com'],
-  debug: true,
-  configDir: '/home/node/acme',
-  // challenges: { 'http-01': require('greenlock-challenge-http').create({ debug: true }) }
+  version: 'draft-12'
+, server: 'https://acme-staging-v02.api.letsencrypt.org/directory'
+, email: 'cyrille.derche@dokspot.com'
+, agreeTos: true
+, approvedDomains: ['slave.clientdomain1.com', 'slave.clientdomain2.com']
+, debug: true
+, store: leStore
+, challenges: {
+  'http-01': leHttpChallenge
+}
+, challengeType: 'http-01'
 });
 
 // let redir = require('redirect-https')();
