@@ -1,4 +1,4 @@
-import { Greenlock } from 'greenlock';
+var Greenlock = require('greenlock');
 let httpProxy = require('http-proxy');
 let proxy = httpProxy.createProxyServer({});
 let redir = require('redirect-https')();

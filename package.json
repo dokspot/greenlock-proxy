@@ -7,7 +7,7 @@
     "scripts": {
         "build": "tsc",
         "dev": "ts-node-dev --respawn --transpileOnly ./src/app.ts",
-        "prod": "tsc && node ./build/app.js"
+        "prod": "node ./build/app.js"
     },
     "dependencies": {
         "greenlock": "^2.7.17",
