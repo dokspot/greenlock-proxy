@@ -4,13 +4,13 @@ let proxy = httpProxy.createProxyServer({});
 
 // Storage Backend
 var leStore = require('greenlock-store-fs').create({
-  configDir: 'home/node/acme/etc'
+  configDir: '/home/node/acme/etc'
 , debug: false
 });
 
 // ACME Challenge Handlers
 var leHttpChallenge = require('le-challenge-fs').create({
-  webrootPath: 'home/node/acme/var/'
+  webrootPath: '/home/node/acme/var'
 , debug: false
 });
 
