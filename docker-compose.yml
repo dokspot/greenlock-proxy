@@ -23,6 +23,8 @@ services:
       DYNAMODB_REGION: 'us-east-1'
       AWS_ACCESS_KEY_ID: 'abc'
       AWS_SECRET_ACCESS_KEY: 'xyz'
+    stdin_open: true
+    tty: true
     depends_on:
       - redis
     links:
