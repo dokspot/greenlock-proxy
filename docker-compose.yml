@@ -1,37 +1,37 @@
 version: '3'
 services:
-  redis:
-    image: 'redis:alpine'
-    volumes:
-      - .data:/redis/data
-    ports:
-      - 6379:6379
-  dynamodb:
-    image: 'amazon/dynamodb-local'
-    volumes:
-      - .data:/dynamodb/data
+  # redis:
+  #   image: 'redis:alpine'
+  #   volumes:
+  #     - .data:/redis/data
+  #   ports:
+  #     - 6379:6379
+  # dynamodb:
+  #   image: 'amazon/dynamodb-local'
+  #   volumes:
+  #     - .data:/dynamodb/data
+  #   ports:
+  #     - 8000:8000
+  #   command: -jar DynamoDBLocal.jar -sharedDb -dbPath /dynamodb/data/
+  s3:
+    image: 'scality/s3server'
     ports:
       - 8000:8000
-    command: -jar DynamoDBLocal.jar -sharedDb -dbPath /dynamodb/data/
   server:
     image: 'node:10-alpine'
     working_dir: /home/node/
     environment:
-      REDIS_DB: redis
-      REDIS_PASSWORD: ''
-      DYNAMODB_ENDPOINT: http://dynamodb:8000
-      DYNAMODB_REGION: 'us-east-1'
-      AWS_ACCESS_KEY_ID: 'abc'
-      AWS_SECRET_ACCESS_KEY: 'xyz'
+      AWS_S3_ENDPOINT: s3
+      AWS_ACCESS_KEY_ID: 'accessKey1'
+      AWS_SECRET_ACCESS_KEY: 'verySecretKey1'
     stdin_open: true
     tty: true
     depends_on:
-      - redis
+      - s3
     links:
-      - redis:redis
+      - s3:s3
     volumes:
       - ./:/home/node
-    command: npm run prod
     ports:
       - 80:80
       - 443:443
