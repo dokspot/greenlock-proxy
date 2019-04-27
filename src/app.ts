@@ -5,13 +5,13 @@ let proxy = httpProxy.createProxyServer({});
 // Storage Backend
 var leStore = require('greenlock-store-fs').create({
   configDir: '/home/node/acme/etc'
-, debug: false
+, debug: true
 });
 
 // ACME Challenge Handlers
 var leHttpChallenge = require('le-challenge-fs').create({
-  webrootPath: '/srv/www/:hostname/.well-known/acme-challenge'
-, debug: false
+  webrootPath: '/home/node/acme/var'
+, debug: true
 });
 
 // let's create ou greenlock server first
@@ -22,12 +22,12 @@ let greenlock = Greenlock.create({
 , email: 'cyrille.derche@dokspot.com'
 , agreeTos: true
 , approvedDomains: [ 'slave.clientdomain1.com', 'slave.clientdomain2.com', 'example.com' ]
-, debug: true
 , store: leStore
 , challenges: {
   'http-01': leHttpChallenge
 }
 , challengeType: 'http-01'
+, debug: true
 });
 
 let acmeChallengeHandler = greenlock.middleware(function (req: any, res: any) {
