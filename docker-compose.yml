@@ -13,23 +13,23 @@ services:
   #   ports:
   #     - 8000:8000
   #   command: -jar DynamoDBLocal.jar -sharedDb -dbPath /dynamodb/data/
-  s3:
-    image: 'scality/s3server'
-    ports:
-      - 8000:8000
+  # s3:
+  #   image: 'scality/s3server'
+  #   ports:
+  #     - 8000:8000
   server:
     image: 'node:10-alpine'
     working_dir: /home/node/
-    environment:
-      AWS_S3_ENDPOINT: s3
-      AWS_ACCESS_KEY_ID: 'accessKey1'
-      AWS_SECRET_ACCESS_KEY: 'verySecretKey1'
+    # environment:
+    #   AWS_S3_ENDPOINT: s3
+    #   AWS_ACCESS_KEY_ID: 'accessKey1'
+    #   AWS_SECRET_ACCESS_KEY: 'verySecretKey1'
     stdin_open: true
     tty: true
-    depends_on:
-      - s3
-    links:
-      - s3:s3
+    # depends_on:
+    #   - s3
+    # links:
+    #   - s3:s3
     volumes:
       - ./:/home/node
     ports:
