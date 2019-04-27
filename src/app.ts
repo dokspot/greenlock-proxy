@@ -26,6 +26,6 @@ require('http').createServer(greenlock.middleware(redir)).listen(80);
 
 require('https').createServer(greenlock.tlsOptions, function (req: any, res: any) {
   return proxy.web(req, res, {
-    target: 'https://another-server.com',
+    target: 'https://www.google.com/',
   });
 }).listen(443);
