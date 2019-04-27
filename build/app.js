@@ -17,11 +17,12 @@ var greenlock = Greenlock.create({
     email: 'cyrille.derche@dokspot.com',
     agreeTos: true,
     store: leStore,
-    approvedDomains: ['slave.clientdomain1.com', 'slave.clientdomain2.com']
+    approvedDomains: ['slave.clientdomain1.com', 'slave.clientdomain2.com'],
+    debug: true
 });
 require('http').createServer(greenlock.middleware(redir)).listen(80);
 require('https').createServer(greenlock.tlsOptions, function (req, res) {
     return proxy.web(req, res, {
-        target: 'https://another-server.com',
+        target: 'https://www.google.com/',
     });
 }).listen(443);
