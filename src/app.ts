@@ -2,16 +2,32 @@ let Greenlock = require('greenlock');
 let httpProxy = require('http-proxy');
 let proxy = httpProxy.createProxyServer({});
 
+// Storage Backend
+var leStore = require('greenlock-store-fs').create({
+  configDir: 'home/node/acme/etc'
+, debug: false
+});
+
+// ACME Challenge Handlers
+var leHttpChallenge = require('le-challenge-fs').create({
+  webrootPath: 'home/node/acme/var/'
+, debug: false
+});
+
 // let's create ou greenlock server first
 
 let greenlock = Greenlock.create({
-  version: 'draft-11'
+  version: 'draft-12'
 , server: 'https://acme-staging-v02.api.letsencrypt.org/directory'
 , email: 'cyrille.derche@dokspot.com'
 , agreeTos: true
 , approvedDomains: [ 'slave.clientdomain1.com', 'slave.clientdomain2.com', 'example.com' ]
 , debug: true
-, configDir: '~/.config/acme/'
+, store: leStore
+, challenges: {
+  'http-01': leHttpChallenge
+}
+, challengeType: 'http-01'
 });
 
 let acmeChallengeHandler = greenlock.middleware(function (req: any, res: any) {
