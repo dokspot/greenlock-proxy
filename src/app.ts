@@ -20,6 +20,7 @@ let greenlock = Greenlock.create({
   store: require('greenlock-store-fs'),
   approvedDomains: ['slave.clientdomain1.com', 'slave.clientdomain2.com'],
   debug: true,
+  configDir: '/home/node/acme',
   // challenges: { 'http-01': require('greenlock-challenge-http').create({ debug: true }) }
 });
 

@@ -18,6 +18,7 @@ var greenlock = Greenlock.create({
     store: require('greenlock-store-fs'),
     approvedDomains: ['slave.clientdomain1.com', 'slave.clientdomain2.com'],
     debug: true,
+    configDir: '/home/node/acme',
 });
 // let redir = require('redirect-https')();
 var acmeChallengeHandler = greenlock.middleware(function (req, res) {
