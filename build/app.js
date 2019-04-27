@@ -2,7 +2,6 @@
 var Greenlock = require('greenlock');
 var httpProxy = require('http-proxy');
 var proxy = httpProxy.createProxyServer({});
-var redir = require('redirect-https')();
 var leStore = require('le-store-redis').create({
     debug: true,
     redisOptions: {
@@ -19,13 +18,30 @@ var greenlock = Greenlock.create({
     store: leStore,
     approvedDomains: ['slave.clientdomain1.com', 'slave.clientdomain2.com'],
     debug: true,
-    challenges: { 'http-01': require('greenlock-challenge-http').create({ debug: true }) }
 });
-require('http').createServer(greenlock.middleware(redir)).listen(80, function () {
-    console.log("Listening for ACME http-01 challenges");
+// let redir = require('redirect-https')();
+var acmeChallengeHandler = greenlock.middleware(function (req, res) {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.end('<h1>Hello, ⚠️ Insecure World!</h1><a>Visit Secure Site</a>');
 });
-require('https').createServer(greenlock.tlsOptions, function (req, res) {
-    return proxy.web(req, res, {
-        target: 'https://www.google.com/',
-    });
-}).listen(443);
+require('http').createServer(acmeChallengeHandler).listen(80, function () {
+    console.log("Listening for ACME http-01 challenges on", this.address());
+});
+var spdyOptions = Object.assign({}, greenlock.tlsOptions);
+spdyOptions.spdy = { protocols: ['h2', 'http/1.1'], plain: false };
+var server = require('spdy').createServer(spdyOptions, function (req, res) {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.end('<h1>Hello, 🔐 Secure World!</h1>');
+});
+server.on('error', function (err) {
+    console.error(err);
+});
+server.on('listening', function () {
+    console.log("Listening for SPDY/http2/https requests on", this.address());
+});
+server.listen(443);
+// require('https').createServer(greenlock.tlsOptions, function (req: any, res: any) {
+//   return proxy.web(req, res, {
+//     target: 'https://www.google.com/',
+//   });
+// }).listen(443);
