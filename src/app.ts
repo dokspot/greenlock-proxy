@@ -7,7 +7,7 @@ let leStore = require('le-store-redis').create({
   debug: true,
   redisOptions: {
     db: process.env.REDIS_DB,
-    password: process.env.REDIS_PASSWORD
+    // password: process.env.REDIS_PASSWORD
   }
 })
 
