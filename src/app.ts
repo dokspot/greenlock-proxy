@@ -4,11 +4,11 @@
 
 var greenlock = require('greenlock').create({
   email: 'cyrille.derche@dokspot.com'           // IMPORTANT: Change email and domains
-, agreeTos: true                      // Accept Let's Encrypt v2 Agreement
-, configDir: '~/.config/acme'         // A writable folder (a non-fs plugin)
+, agreeTos: true                                // Accept Let's Encrypt v2 Agreement
+, store: require('greenlock-store-fs')
 
-, communityMember: true               // Get (rare) non-mandatory updates about cool greenlock-related stuff (default false)
-, securityUpdates: true               // Important and mandatory notices related to security or breaking API changes (default true)
+, communityMember: true                         // Get (rare) non-mandatory updates about cool greenlock-related stuff (default false)
+, securityUpdates: true                         // Important and mandatory notices related to security or breaking API changes (default true)
 
 , approveDomains: [ 'slave.clientdomain1.com' , 'slave.clientdomain2.com' ]
 });
