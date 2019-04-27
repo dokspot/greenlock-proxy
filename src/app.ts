@@ -11,6 +11,7 @@ var greenlock = require('greenlock').create({
 , securityUpdates: true                         // Important and mandatory notices related to security or breaking API changes (default true)
 
 , approveDomains: [ 'slave.clientdomain1.com' , 'slave.clientdomain2.com' ]
+, debug: true
 });
 
 ////////////////////
