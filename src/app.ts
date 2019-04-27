@@ -5,7 +5,7 @@ let proxy = httpProxy.createProxyServer({});
 // Storage Backend
 var leStore = require('greenlock-store-fs').create({
   configDir: '/home/node/acme/etc'
-, webrootPath: '/home/node/acme/var'
+, webrootPath: '/tmp/acme-challenges'
 , debug: true
 });
 
